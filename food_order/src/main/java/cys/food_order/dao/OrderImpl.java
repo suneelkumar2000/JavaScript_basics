@@ -22,15 +22,19 @@ public class OrderImpl implements OrderDAO {
 	public int insertOrder(Order order) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		Connection con = ConnectionUtil.getConnection();
-		String insert = "insert into orders(food_id,quantity) values(?,?)";
+		String insert = "insert into orders(customer_id,food_id,quantity,amount) values(?,?,?,?)";
 		PreparedStatement ps = con.prepareStatement(insert);
 		
+		boolean customerId = val.numberValidation(order.getCustomerId());
 		boolean foodId = val.numberValidation(order.getFoodId());
 		boolean quantity = val.numberValidation(order.getQuantity());
+		boolean amount = val.numberValidation(order.getAmount());
 		
-		if (foodId == true && quantity == true) {
-		ps.setInt(1, order.getFoodId());
-		ps.setInt(2, order.getQuantity());
+		if (amount == true && customerId == true && foodId == true && quantity == true) {
+		ps.setInt(1,order.getCustomerId());
+		ps.setInt(2, order.getFoodId());
+		ps.setInt(3, order.getQuantity());
+		ps.setInt(4, order.getAmount());
 		int execute = ps.executeUpdate();
 		return execute;
 		} else
@@ -41,13 +45,29 @@ public class OrderImpl implements OrderDAO {
 	public int updateOrderQuantity(int id, int quantity) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		Connection con = ConnectionUtil.getConnection();
-		String update = "update orders set quantity=? where id=?";
+		String update = "update orders set quantity=? where food_id=?";
 		PreparedStatement ps = con.prepareStatement(update);
 		boolean num = val.numberValidation(id);
 		boolean quan = val.numberValidation(quantity);
 		if (num == true && quan == true) {
 			ps.setInt(1, quantity);
 			ps.setInt(2, id);
+			int executeUpdate = ps.executeUpdate();
+			return executeUpdate;
+		} else
+			return 0;
+	}
+	@Override
+	public int updateAmount(int amount, int fooodId) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		Connection con = ConnectionUtil.getConnection();
+		String update = "update orders set amount=? where food_id=?";
+		PreparedStatement ps = con.prepareStatement(update);
+		boolean amo = val.numberValidation(amount);
+		boolean fi = val.numberValidation(fooodId);
+		if (amo == true && fi == true) {
+			ps.setInt(1, amount);
+			ps.setInt(2, fooodId);
 			int executeUpdate = ps.executeUpdate();
 			return executeUpdate;
 		} else
@@ -74,36 +94,51 @@ public class OrderImpl implements OrderDAO {
 	public List<Order> orderList() throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		Connection con = ConnectionUtil.getConnection();
-		String display = "select id,food_id,quantity from orders";
+		String display = "select id,food_id,quantity,amount from orders";
 		PreparedStatement ps = con.prepareStatement(display);
 		ResultSet rs = ps.executeQuery();
 		ArrayList<Order> orderList = new ArrayList<Order>();
 		while (rs.next()) {
-			int id = rs.getInt(1);
+			int customer_id = rs.getInt(1);
 			int foodId = rs.getInt(2);
 			int quantity = rs.getInt(3);
+			int amount = rs.getInt(4);
 			Order order = new Order();
-			order.setId(id);
+			order.setCustomerId(customer_id);
 			order.setFoodId(foodId);
 			order.setQuantity(quantity);
+			order.setAmount(amount);
 			orderList.add(order);
 		}
 		return orderList;
 	}
-
+	
 	@Override
-	public int showId(Order order) throws ClassNotFoundException, SQLException {
+	public int findFoodId(int customerId) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		Connection con = ConnectionUtil.getConnection();
-		String find = "select id from orders where food_id=?,quantity=?";
+		String find = "select food_id from orders where customer_id=?";
 		PreparedStatement ps = con.prepareStatement(find);
-
-		ps.setInt(1, order.getFoodId());
-		ps.setInt(2, order.getQuantity());
+		ps.setInt(1, customerId);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			int id = rs.getInt(1);
-			return id;
+			int foodId = (rs.getInt(1));
+			return foodId;
+		}
+		return 0;
+	}
+	@Override
+	public int selectQuantity(int foodId) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		Connection con = ConnectionUtil.getConnection();
+		String find = "select quantity from orders where food_id=?";
+		PreparedStatement ps = con.prepareStatement(find);
+
+		ps.setInt(1, foodId);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			int quantity= rs.getInt(1);
+			return quantity;
 		}
 		return 0;
 	}

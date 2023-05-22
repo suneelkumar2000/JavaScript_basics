@@ -3,25 +3,27 @@ package cys.food_order.model;
 import java.sql.Date;
 
 public class Order {
-	private int id;
+	private int customerId;
 	private int quantity;
 	private int foodId;
+	private int amount;
 
 	public Order() {
 	}
 
-	public Order(int id, int foodId, int quantity) {
-		this.id = id;
+	public Order(int customerId, int foodId, int quantity,int amount) {
+		this.customerId = customerId;
 		this.foodId = foodId;
 		this.quantity = quantity;
+		this.amount=amount;
 	}
 
-	public int getId() {
-		return id;
+	public int getCustomerId() {
+		return customerId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
 	}
 
 	public int getFoodId() {
@@ -39,10 +41,20 @@ public class Order {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
 
 	@Override
 
 	public String toString() {
-		return "Order [id = " + id + " food id = " + foodId + ", quantity = " + quantity + "]";
+		return "Order [customerId = " + customerId + " food id = " + foodId + ", quantity = " + quantity + ", amount = " + amount + "]";
 	}
+
+	
 }

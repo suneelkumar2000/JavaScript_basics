@@ -10,56 +10,39 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cys.food_order.dao.FoodItemImpl;
-import cys.food_order.model.FoodItem;
+import cys.food_order.dao.OrderImpl;
 
-
-@WebServlet("/InsertFoodTest")
-public class InsertFoodTest extends HttpServlet {
+@WebServlet("/DeleteCartTest")
+public class DeleteCartTest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    
-    public InsertFoodTest() {
+    public DeleteCartTest() {
         super();
         // TODO Auto-generated constructor stub
     }
-
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		OrderImpl or = new OrderImpl();
 		
-		FoodItemImpl fi = new FoodItemImpl();
-		FoodItem food = new FoodItem();
-		
-		String name=request.getParameter("name");
-		String pr=request.getParameter("price");
-		int price=Integer.parseInt(pr);
-		String quant=request.getParameter("quantity");
-		int quantity=Integer.parseInt(quant);
-		String itemCategory=request.getParameter("itemCategory");
+		String i=request.getParameter("orderId");
+		int id=Integer.parseInt(i);
 		response.setContentType("text/html");
 		try (PrintWriter out=response.getWriter())
 		{
 			
-			food.setName(name); 
-			food.setUnitPrice(price);
-			food.setQuantity(quantity);
-			food.setItemCategory(itemCategory);
-			int n = fi.insertFoodDetails(food);
+			int n = or.deleteOrder(id);
 			if(n>0)
 			{
-				RequestDispatcher rd=request.getRequestDispatcher("AdminPage.jsp");
+				RequestDispatcher rd=request.getRequestDispatcher("Cart.jsp");
 				rd.include(request, response);
-				out.println("<center><h3>Successfully added</h3></center>");
+				out.println("<center><h3>Successfully Removed</h3></center>");
 			}
 			else
 			{
-				
-				RequestDispatcher rd=request.getRequestDispatcher("InsertFood.jsp");
-				rd.include(request, response);
-				out.println("<center><h3>Sorry Process Unsuccessfull</h3></center>");
-				
+				RequestDispatcher rd=request.getRequestDispatcher("Cart.jsp");
+				rd.include(request, response);	
+				out.println("<center><h3>process unsuccessfull</h3></center>");
 			}
 		}
 		catch(Exception e)
@@ -68,7 +51,6 @@ public class InsertFoodTest extends HttpServlet {
 		}
 	}
 
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

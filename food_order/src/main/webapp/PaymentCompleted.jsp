@@ -29,6 +29,7 @@ body {
 	text-align: center;
 	padding: 0 0 20px 0;
 	border-bottom: 1px solid silver;
+	color: #12BB34;
 }
 
 .center form {

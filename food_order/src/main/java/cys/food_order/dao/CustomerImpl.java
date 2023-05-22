@@ -42,25 +42,42 @@ public class CustomerImpl implements CustomerDAO {
 	}
 
 	@Override
-	public int showCustomerId(String userName) throws ClassNotFoundException, SQLException {
+	public int findCustomerId(String userName) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		Connection con = ConnectionUtil.getConnection();
 		boolean user = val.usernameValidation(userName);
 		if (user == true) {
-			String customerId = "select id from customer where user_name=?";
-			PreparedStatement ps1 = con.prepareStatement(customerId);
+			String find = "select id from customer where user_name=?";
+			PreparedStatement ps1 = con.prepareStatement(find);
 			ps1.setString(1, userName);
 			ResultSet rs = ps1.executeQuery();
 			while (rs.next()) {
 				int id = rs.getInt(1);
 				return id;
-			}return 1;
+			}
+			return 1;
 		} else {
 			return 0;
 		}
 	}
+
 	@Override
-	public boolean customerLogin(String userName,String password) throws ClassNotFoundException, SQLException {
+	public String findEmail(int id) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		Connection con = ConnectionUtil.getConnection();
+		String find = "select email from customer where id=?";
+		PreparedStatement ps1 = con.prepareStatement(find);
+		ps1.setInt(1, id);
+		ResultSet rs = ps1.executeQuery();
+		while (rs.next()) {
+			String email = rs.getString(1);
+			return email;
+		}
+		return null;
+	}
+
+	@Override
+	public boolean customerLogin(String userName, String password) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		Connection con = ConnectionUtil.getConnection();
 		String find = "select password from customer where user_name=?";

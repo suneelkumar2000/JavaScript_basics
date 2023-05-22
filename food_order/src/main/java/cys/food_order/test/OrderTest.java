@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import cys.food_order.dao.FoodItemImpl;
 import cys.food_order.dao.OrderImpl;
@@ -32,42 +33,56 @@ public class OrderTest extends HttpServlet {
 		Order order = new Order();
 		FoodItemImpl fi = new FoodItemImpl();
 
-		String foodId = request.getParameter("foodId");
-		String quan = request.getParameter("quantity");
+		HttpSession session = request.getSession(true);
+		String cusId = (String) session.getValue("customerId");
+		String food = (String) session.getValue("foodId");
+		String quantity = request.getParameter("quantity");
 		String price = request.getParameter("price");
-		int id = Integer.parseInt(foodId);
-		int orderQuantity = Integer.parseInt(quan);
-		int unitPrice=Integer.parseInt(price);
 
-		
+		int customerId = Integer.parseInt(cusId);
+		int foodId = Integer.parseInt(food);
+		int orderQuantity = Integer.parseInt(quantity);
+		int unitPrice = Integer.parseInt(price);
+
 		PrintWriter out = response.getWriter();
 		try {
-			order.setFoodId(id);
+			order.setCustomerId(customerId);
+			order.setFoodId(foodId);
 			order.setQuantity(orderQuantity);
+			int amount = unitPrice * orderQuantity;
+			order.setAmount(amount);
+			int foodQuantity = fi.selectQuantity(foodId);
 
-			int foodQuantity = fi.selectQuantity(id);
-			if (foodQuantity > orderQuantity && 0<orderQuantity) {
-				
-				int newQuantity = foodQuantity - orderQuantity;
-				fi.updateQuantity(id, newQuantity);
-				or.insertOrder(order);
-				int amount=unitPrice*orderQuantity;
-				RequestDispatcher rd = request.getRequestDispatcher("Order.jsp");
-				rd.include(request, response);
-				out.println("<center>Ordered Successfully</center>");
-				out.println("<center>Total Amount is "+amount+"</center>");
-				out.println("<center><button><a href=\"Payment.jsp\">PAY</a></button></center>");
-				
+			if ((foodQuantity > orderQuantity && 0 < orderQuantity) || (foodQuantity == orderQuantity)) {
+				int foodid = or.findFoodId(customerId);
 
-			} else if (foodQuantity == orderQuantity) {
-			} else if (foodQuantity < orderQuantity){
+				if (foodid == foodId) {
+					int oldQuantity = or.selectQuantity(foodId);
+					int totalQuantity = oldQuantity + orderQuantity;
+					or.updateOrderQuantity(foodId, totalQuantity);
+
+					int newQuantity = or.selectQuantity(foodId);
+					int newAmount = unitPrice * newQuantity;
+					or.updateAmount(newAmount, foodId);
+
+					RequestDispatcher rd = request.getRequestDispatcher("Menu.jsp");
+					rd.include(request, response);
+					out.println("<center><h3>Ordered Successfully</h3></center>");
+				} else if(foodid != foodId){
+					or.insertOrder(order);
+
+					RequestDispatcher rd = request.getRequestDispatcher("Menu.jsp");
+					rd.include(request, response);
+					out.println("<center><h3>Ordered Successfully</h3></center>");
+				}
+			} else if (foodQuantity < orderQuantity) {
 				RequestDispatcher rd = request.getRequestDispatcher("Menu.jsp");
 				rd.include(request, response);
-				out.println("<center>Sorry Insufficient quantity</center>");
-			}else {
+				out.println("<center><h3>Sorry Insufficient quantity</h3></center>");
+			} else {
 				RequestDispatcher rd = request.getRequestDispatcher("Menu.jsp");
 				rd.include(request, response);
-				out.println("<center>Sorry Wrong Input Please Check Again</center>");
+				out.println("<center><h3>Sorry Wrong Input Please Check Again</h3></center>");
 			}
 		} catch (Exception e) {
 			System.out.println(e);

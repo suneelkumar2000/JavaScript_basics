@@ -37,12 +37,12 @@ public class PaymentTest extends HttpServlet {
 			boolean result = cus.customerLogin(name,password);
 			
 			if (result == true) {
-				response.sendRedirect("ThankYou.jsp");
+				response.sendRedirect("PaymentCompleted.jsp");
 				
 			} else {
 				RequestDispatcher rd = request.getRequestDispatcher("Payment.jsp");
 				rd.include(request, response);
-				out.println("<center> Incorrect Username and password </center>");
+				out.println("<center> <h3>Incorrect Username and password</h3> </center>");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import cys.food_order.dao.CustomerImpl;
 import cys.food_order.model.Customer;
@@ -36,12 +37,19 @@ public class CustomerLoginTest extends HttpServlet {
 			boolean result = cus.customerLogin(name,password);
 			
 			if (result == true) {
+				int customerId=cus.findCustomerId(name);
+				String id=String.valueOf(customerId);
+				String email=cus.findEmail(customerId);
+				HttpSession session=request.getSession(true);
+				session.putValue("customerId",id);
+				session.putValue("userName",name);
+				session.putValue("email",email);
 				response.sendRedirect("Menu.jsp");
 				
 			} else {
 				RequestDispatcher rd = request.getRequestDispatcher("Index.jsp");
 				rd.include(request, response);
-				out.println("<center> Incorrect Username and password </center>");
+				out.println("<center><h3> Incorrect Username and password </h3></center>");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

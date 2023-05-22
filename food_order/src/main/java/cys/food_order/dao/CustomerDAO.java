@@ -7,6 +7,7 @@ import cys.food_order.model.Customer;
 
 public interface CustomerDAO {
 	public int insertCustomerDetails(Customer customer)throws ClassNotFoundException, SQLException;
-	public int showCustomerId(String userName)throws ClassNotFoundException, SQLException;
+	public int findCustomerId(String userName)throws ClassNotFoundException, SQLException;
 	public boolean customerLogin(String userName,String password) throws ClassNotFoundException, SQLException;
+	public String findEmail(int id) throws ClassNotFoundException, SQLException ;
 }

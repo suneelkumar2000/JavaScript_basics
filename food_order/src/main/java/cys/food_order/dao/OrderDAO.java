@@ -10,5 +10,7 @@ public interface OrderDAO {
 	public int updateOrderQuantity(int id,int quantity) throws ClassNotFoundException, SQLException;
 	public int deleteOrder(int id) throws ClassNotFoundException, SQLException;
 	public List<Order> orderList() throws ClassNotFoundException, SQLException;
-	public int showId(Order order) throws ClassNotFoundException, SQLException;
+	public int findFoodId(int id) throws ClassNotFoundException, SQLException;
+	public int selectQuantity(int foodId) throws ClassNotFoundException, SQLException;
+	public int updateAmount(int amount, int fooodId) throws ClassNotFoundException, SQLException;
 }

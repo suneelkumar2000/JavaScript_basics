@@ -37,13 +37,13 @@ public class DeleteFoodTest extends HttpServlet {
 			{
 				RequestDispatcher rd=request.getRequestDispatcher("AdminPage.jsp");
 				rd.include(request, response);
-				out.println("<center>Successfully added</center>");
+				out.println("<center><h3>Successfully deleted</h3></center>");
 			}
 			else
 			{
-				RequestDispatcher rd=request.getRequestDispatcher("Admin.jsp");
+				RequestDispatcher rd=request.getRequestDispatcher("AdminPage.jsp");
 				rd.include(request, response);	
-				out.println("<center>process unsuccessfull</center>");
+				out.println("<center><h3>process unsuccessfull</h3></center>");
 			}
 		}
 		catch(Exception e)

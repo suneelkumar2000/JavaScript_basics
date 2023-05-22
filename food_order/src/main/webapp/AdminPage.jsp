@@ -18,7 +18,7 @@
 	</div>
 
 	<ul class="navbar-nav">
-		<li><a href="AdminRegisterPage">New Admin</a></li>
+		<li><a href="AdminRegisterPage.jsp">New Admin</a></li>
 	</ul>
 </nav>
 <style>
@@ -63,7 +63,6 @@ button {
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th>Food ID</th>
 						<th>Food Name</th>
 						<th>Price</th>
 						<th>Quantity</th>
@@ -85,7 +84,6 @@ button {
 						String category = rs.getString(5);
 					%>
 					<tr>
-						<td><%=id%></td>
 						<td><%=name%></td>
 						<td><%=price%></td>
 						<td><%=quantity%></td>

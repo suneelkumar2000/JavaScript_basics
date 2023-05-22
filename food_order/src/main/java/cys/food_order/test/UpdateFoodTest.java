@@ -44,11 +44,11 @@ public class UpdateFoodTest extends HttpServlet {
 			if(q>0 && p>0 && c>0) {
 				RequestDispatcher rd=request.getRequestDispatcher("AdminPage.jsp");
 				rd.include(request, response);
-				out.println("<center>Updated Successfully</center>");
+				out.println("<center><h3>Updated Successfully</h3></center>");
 			}else {
-				RequestDispatcher rd=request.getRequestDispatcher("UpdateFoodList.jsp");
+				RequestDispatcher rd=request.getRequestDispatcher("AdminPage.jsp");
 				rd.include(request, response);
-				out.println("<center>Updated UnSuccessfully</center>");
+				out.println("<center><h3>Updated UnSuccessfully</h3></center>");
 			}
 		}
 		catch(Exception e)
