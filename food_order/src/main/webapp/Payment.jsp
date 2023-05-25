@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -118,18 +118,26 @@ input[type="submit"]:hover {
 	font-size: 16px;
 	color: #666666;
 }
-.signup_link a{
-color: #2691d9;
-text-decoration: none;
+
+.signup_link a {
+	color: #2691d9;
+	text-decoration: none;
 }
-.signup_link a:hover{
-text-decoration: underline;}
+
+.signup_link a:hover {
+	text-decoration: underline;
+}
 </style>
 </head>
 <body>
+
 	<div class="center">
 		<h1>Login</h1>
 		<form action="PaymentTest" method="get">
+			<%
+			String customerId = request.getParameter("customerId");
+			session.putValue("customerId", customerId);
+			%>
 			<div class="txt_field">
 				<input type="text" name="name" required> <span></span> <label>user
 					name</label>

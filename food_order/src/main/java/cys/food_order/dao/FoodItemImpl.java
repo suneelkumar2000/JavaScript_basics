@@ -55,7 +55,7 @@ public class FoodItemImpl implements FoodItemDAO {
 		} else
 			return 0;
 	}
-	
+
 	@Override
 	public int updatePrice(int id, int price) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
@@ -72,7 +72,7 @@ public class FoodItemImpl implements FoodItemDAO {
 		} else
 			return 0;
 	}
-	
+
 	@Override
 	public int updateCategory(int id, String category) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
@@ -141,11 +141,44 @@ public class FoodItemImpl implements FoodItemDAO {
 		ps.setInt(1, id);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			int quantity= rs.getInt(1);
+			int quantity = rs.getInt(1);
 			return quantity;
 		}
 		return 0;
 	}
-	
-}
 
+	public int reduceQuantity(int customerId) throws ClassNotFoundException, SQLException {
+		Connection con = ConnectionUtil.getConnection();
+		String find = "select food_id from orders where customer_id=?";
+		PreparedStatement ps = con.prepareStatement(find);
+		ps.setInt(1, customerId);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			int foodId = (rs.getInt(1));
+			String find1 = "select quantity from fooditem where id=?";
+			PreparedStatement ps1 = con.prepareStatement(find1);
+			ps1.setInt(1, foodId);
+			ResultSet rs1 = ps1.executeQuery();
+			while (rs1.next()) {
+				int foodQuantity = rs1.getInt(1);
+				String find2 = "select quantity from orders where food_id=?";
+				PreparedStatement ps2 = con.prepareStatement(find2);
+
+				ps2.setInt(1, foodId);
+				ResultSet rs2 = ps2.executeQuery();
+				while (rs2.next()) {
+					int orderQuantity = rs2.getInt(1);
+					int newQuantity = foodQuantity - orderQuantity;
+					String update = "update fooditem set quantity =? where id=?";
+					PreparedStatement ps3 = con.prepareStatement(update);
+					ps3.setInt(1, newQuantity);
+					ps3.setInt(2, foodId);
+					int executeUpdate = ps3.executeUpdate();
+					return executeUpdate;
+				}
+			}
+		}
+		return 0;
+	}
+
+}

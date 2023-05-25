@@ -13,4 +13,5 @@ public interface FoodItemDAO {
 	public int deleteFoodDetails(int id)throws ClassNotFoundException, SQLException;
 	public List<FoodItem> foodList()throws ClassNotFoundException, SQLException;
 	public int selectQuantity(int id)throws ClassNotFoundException, SQLException;
+	public int reduceQuantity(int id) throws ClassNotFoundException, SQLException;
 }

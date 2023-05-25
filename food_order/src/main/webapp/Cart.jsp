@@ -25,7 +25,8 @@ button {
 	color: #fff;
 	margin-right: 10%;
 }
-.navbar-brand a{
+
+.navbar-brand a {
 	color: #fff;
 	margin-right: 50%;
 }
@@ -39,13 +40,26 @@ nav {
 	justify-content: space-between;
 	position: relative;
 }
+table td{
+background-color: #DBD9E3;
+}
+table th{
+color: #fff;
+background-color: #0F21BF;
+}
 </style>
 </head>
 <body>
+	<%
+	String customerId = request.getParameter("customerId");
+	session.putValue("customerId", customerId);
+	int customer = Integer.parseInt(customerId);
+	%>
 	<nav>
 		<div>
 			<div class="navbar-brand">
-				<a href="Menu.jsp"> < Back </a>Foodies App
+				<a href="Menu.jsp?customerId=<%=customer%>"> < Back </a>Foodies
+				App
 			</div>
 		</div>
 	</nav>
@@ -66,15 +80,16 @@ nav {
 						<th>Price</th>
 						<th>Quantity</th>
 						<th>Amount</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
-
 					<%
-					String customerId = request.getParameter("customerId");
 					Connection con = ConnectionUtil.getConnection();
-					Statement stmt = con.createStatement();
-					ResultSet rs = stmt.executeQuery("select id,food_id,quantity,amount from Orders");
+					String select = "select id,food_id,quantity,amount from Orders where customer_id=?";
+					PreparedStatement ps = con.prepareStatement(select);
+					ps.setInt(1, customer);
+					ResultSet rs = ps.executeQuery();
 					while (rs.next()) {
 						int id = rs.getInt(1);
 						int foodId = rs.getInt(2);
@@ -95,7 +110,7 @@ nav {
 						<td><%=quantity%></td>
 						<td>Rs.<%=amount%></td>
 						<td><button>
-								<a href="DeleteCartTest?orderId=<%=id%>">remove</a>
+								<a href="DeleteCartTest?orderId=<%=id%>&customerId=<%=customer%>">remove</a>
 							</button></td>
 					</tr>
 					<%
@@ -104,11 +119,24 @@ nav {
 					%>
 				</tbody>
 			</table>
-			<center>
-				<button>
-					<a href="Payment.jsp?=customerId<%=customerId%>">Payment</a>
-				</button>
-			</center>
+			<%
+			Statement stmt = con.createStatement();
+			ResultSet rs1 = stmt
+					.executeQuery("select SUM(amount) as Total_amount FROM Orders where customer_id='" + customer + "'");
+			while (rs1.next()) {
+				int total = rs1.getInt(1);
+			%>
+			<tr>
+				<h5>
+					TOTAL AMOUNT : Rs.<%=total%></h5>
+			</tr>
+			<button>
+				<a href="Payment.jsp?customerId=<%=customerId%>&total=<%=total%>">Payment</a>
+			</button>
+			<%
+			}
+			%>
+
 		</div>
 	</div>
 </body>

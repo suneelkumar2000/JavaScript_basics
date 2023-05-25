@@ -10,4 +10,5 @@ public interface CustomerDAO {
 	public int findCustomerId(String userName)throws ClassNotFoundException, SQLException;
 	public boolean customerLogin(String userName,String password) throws ClassNotFoundException, SQLException;
 	public String findEmail(int id) throws ClassNotFoundException, SQLException ;
+	public boolean paymentLogin(int customerId,String userName, String password) throws ClassNotFoundException, SQLException;
 }

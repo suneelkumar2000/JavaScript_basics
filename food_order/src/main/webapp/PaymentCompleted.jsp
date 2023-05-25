@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -119,22 +119,33 @@ button:hover {
 	font-size: 16px;
 	color: #666666;
 }
-.signup_link a{
-color: #2691d9;
-text-decoration: none;
+
+.signup_link a {
+	color: #2691d9;
+	text-decoration: none;
 }
-.signup_link a:hover{
-text-decoration: underline;}
+
+.signup_link a:hover {
+	text-decoration: underline;
+}
 </style>
 </head>
 <body>
 	<div class="center">
+		<%
+		String customer = (String) session.getValue("customerId");
+		session.putValue("customerId", customer);
+		%>
 		<h1>PAYMENT SUCESSFULLY COMPLETED</h1>
-			<center><div class="pass">THANK YOU , YOUR ORDER IS ON THE WAY</div>
-			<button><a href="Menu.jsp">Back to Menu</a></button></center>
-			<div class="signup_link">
-				<a href="Index.jsp">Logout</a>
-			</div>
+		<center>
+			<div class="pass">THANK YOU , YOUR ORDER IS ON THE WAY</div>
+			<button>
+				<a href="Menu.jsp">Back to Menu</a>
+			</button>
+		</center>
+		<div class="signup_link">
+			<a href="Logout.jsp">Logout</a>
+		</div>
 		</form>
 	</div>
 </body>

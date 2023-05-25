@@ -49,8 +49,6 @@ public class CustomerRegisterTest extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher("CustomerloginPage.jsp");
 				rd.include(request, response);
 				out.println("<center><h3>Registered Successfully</h3></center>");
-				int id=cus.findCustomerId(name);
-				out.println("<center><h3>Your Customer Id is :"+id+"</h3></center>");
 			} else {
 				out.println("<center><h3> Fill all details </h3></center>");
 				RequestDispatcher rd = request.getRequestDispatcher("RegisterPage.jsp");

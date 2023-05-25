@@ -1,23 +1,27 @@
 package cys.food_order.model;
 
 public class OrderItem {
-	private Integer id;
-	private Integer foodId;
-	private Integer quantity;
-	private Integer unitPrice;
+	private int customerId;
+	private int quantity;
+	private int foodId;
 	
-	public OrderItem(){}
-	
-	public OrderItem(Integer id,Integer foodId,Integer quantity,Integer unitPrice){
-		this.id=id;
-		this.foodId=foodId;
-	}
-	public int getId() {
-		return id;
+
+	public OrderItem() {
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public OrderItem(int customerId, int foodId, int quantity) {
+		this.customerId = customerId;
+		this.foodId = foodId;
+		this.quantity = quantity;
+		
+	}
+
+	public int getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
 	}
 
 	public int getFoodId() {
@@ -27,7 +31,7 @@ public class OrderItem {
 	public void setFoodId(int foodId) {
 		this.foodId = foodId;
 	}
-	
+
 	public int getQuantity() {
 		return quantity;
 	}
@@ -35,17 +39,9 @@ public class OrderItem {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	
-	public int getUnitPrice() {
-		return unitPrice;
-	}
-
-	public void setUnitPrice(int unitPrice) {
-		this.unitPrice = unitPrice;
-	}
-	
 	@Override
+
 	public String toString() {
-		return "Order Items [Main id = " + id + ", Food Id = " + foodId + ", Quantity = "+ quantity + ", Unit Price = " + unitPrice + "]";
+		return "OrderItem [customerId = " + customerId + " food id = " + foodId + ", quantity = " + quantity +"]";
 	}
 }

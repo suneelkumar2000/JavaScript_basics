@@ -17,10 +17,10 @@ import cys.food_order.model.FoodItem;
 import cys.food_order.model.Order;
 
 @WebServlet("/OrderTest")
-public class OrderTest extends HttpServlet {
+public class ReOrderTest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public OrderTest() {
+	public ReOrderTest() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -34,8 +34,11 @@ public class OrderTest extends HttpServlet {
 		FoodItemImpl fi = new FoodItemImpl();
 
 		HttpSession session = request.getSession(true);
-		String customer = (String) session.getValue("customerId");
-		String food = (String) session.getValue("foodId");
+		String userName = (String) session.getValue("userName");
+		String email = (String) session.getValue("email");
+		String customer = request.getParameter("customerId");
+		
+		String food = request.getParameter("foodId");
 		String quantity = request.getParameter("quantity");
 		String price = request.getParameter("price");
 
@@ -43,6 +46,10 @@ public class OrderTest extends HttpServlet {
 		int foodId = Integer.parseInt(food);
 		int orderQuantity = Integer.parseInt(quantity);
 		int unitPrice = Integer.parseInt(price);
+		
+		session.putValue("customerId",customerId);
+		session.putValue("userName",userName);
+		session.putValue("email",email);
 
 		PrintWriter out = response.getWriter();
 		try {
@@ -61,7 +68,7 @@ public class OrderTest extends HttpServlet {
 					int newAmount = unitPrice * newQuantity;
 					or.updateAmount(newAmount, foodId,customerId);
 
-					RequestDispatcher rd = request.getRequestDispatcher("Menu.jsp");
+					RequestDispatcher rd = request.getRequestDispatcher("OrderHistory.jsp");
 					rd.include(request, response);
 					out.println("<center><h3>updated Successfully</h3></center>");
 					
@@ -73,16 +80,16 @@ public class OrderTest extends HttpServlet {
 					order.setAmount(amount);
 					or.insertOrder(order);
 
-					RequestDispatcher rd = request.getRequestDispatcher("Menu.jsp");
+					RequestDispatcher rd = request.getRequestDispatcher("OrderHistory.jsp?customerId="+customer);
 					rd.include(request, response);
 					out.println("<center><h3>Added Successfully</h3></center>");
 				}
 			} else if (foodQuantity < orderQuantity) {
-				RequestDispatcher rd = request.getRequestDispatcher("Menu.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("OrderHistory.jsp?customerId="+customer);
 				rd.include(request, response);
 				out.println("<center><h3>Sorry Insufficient quantity</h3></center>");
 			} else {
-				RequestDispatcher rd = request.getRequestDispatcher("Menu.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("OrderHistory.jsp?customerId="+customer);
 				rd.include(request, response);
 				out.println("<center><h3>Sorry Wrong Input Please Check Again</h3></center>");
 			}

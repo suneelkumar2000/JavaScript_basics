@@ -20,8 +20,8 @@ body
 <form action="CustomerRegisterTest" method="get">
 <table id="tab1">
 	<tr><td>user name:<input type="text" name="name"></td></tr>
-	<tr><td>mobile no:<input type="number" name="mobile"></td></tr>
-	<tr><td>email - id :<input type="text" name="email"></td></tr>
+	<tr><td>mobile no:<input type="tel" name="mobile"></td></tr>
+	<tr><td>email - id :<input type="email" name="email"></td></tr>
 	<tr><td>password :<input type="password" name="password"></td></tr>
 	<tr><td><input type="submit"></td></tr>
 </table>

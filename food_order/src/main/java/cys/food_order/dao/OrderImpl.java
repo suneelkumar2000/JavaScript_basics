@@ -42,32 +42,34 @@ public class OrderImpl implements OrderDAO {
 	}
 
 	@Override
-	public int updateOrderQuantity(int id, int quantity) throws ClassNotFoundException, SQLException {
+	public int updateOrderQuantity(int id, int quantity,int customerId) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		Connection con = ConnectionUtil.getConnection();
-		String update = "update orders set quantity=? where food_id=?";
+		String update = "update orders set quantity=? where food_id=? and customer_id=?";
 		PreparedStatement ps = con.prepareStatement(update);
 		boolean num = val.numberValidation(id);
 		boolean quan = val.numberValidation(quantity);
 		if (num == true && quan == true) {
 			ps.setInt(1, quantity);
 			ps.setInt(2, id);
+			ps.setInt(3, customerId);
 			int executeUpdate = ps.executeUpdate();
 			return executeUpdate;
 		} else
 			return 0;
 	}
 	@Override
-	public int updateAmount(int amount, int fooodId) throws ClassNotFoundException, SQLException {
+	public int updateAmount(int amount, int fooodId,int customerId) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		Connection con = ConnectionUtil.getConnection();
-		String update = "update orders set amount=? where food_id=?";
+		String update = "update orders set amount=? where food_id=? and customer_id=?";
 		PreparedStatement ps = con.prepareStatement(update);
 		boolean amo = val.numberValidation(amount);
 		boolean fi = val.numberValidation(fooodId);
 		if (amo == true && fi == true) {
 			ps.setInt(1, amount);
 			ps.setInt(2, fooodId);
+			ps.setInt(3, customerId);
 			int executeUpdate = ps.executeUpdate();
 			return executeUpdate;
 		} else
@@ -79,6 +81,21 @@ public class OrderImpl implements OrderDAO {
 		// TODO Auto-generated method stub
 		Connection con = ConnectionUtil.getConnection();
 		String delete = "delete from orders where id=?";
+		PreparedStatement ps = con.prepareStatement(delete);
+
+		boolean num = val.numberValidation(id);
+		if (num == true) {
+			ps.setInt(1, id);
+			int executeUpdate = ps.executeUpdate();
+			return executeUpdate;
+		} else
+			return 0;
+	}
+	@Override
+	public int deleteOrderByCustomer(int id) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		Connection con = ConnectionUtil.getConnection();
+		String delete = "delete from orders where customer_id=?";
 		PreparedStatement ps = con.prepareStatement(delete);
 
 		boolean num = val.numberValidation(id);
@@ -128,13 +145,14 @@ public class OrderImpl implements OrderDAO {
 		return 0;
 	}
 	@Override
-	public int selectQuantity(int foodId) throws ClassNotFoundException, SQLException {
+	public int selectQuantity(int foodId,int customerId) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		Connection con = ConnectionUtil.getConnection();
-		String find = "select quantity from orders where food_id=?";
+		String find = "select quantity from orders where food_id=? and customer_id=?";
 		PreparedStatement ps = con.prepareStatement(find);
 
 		ps.setInt(1, foodId);
+		ps.setInt(2, customerId);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			int quantity= rs.getInt(1);

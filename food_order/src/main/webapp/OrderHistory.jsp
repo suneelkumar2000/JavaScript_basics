@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Menu Page</title>
+<title>Order History</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -33,6 +33,15 @@ nav {
 	align-items: center;
 	justify-content: space-between;
 	position: relative;
+}
+
+nav a {
+	color: #fff;
+	margin-left: 75%;
+}
+nav a:hover{
+	color: #fff;
+	font-weight: 600;
 }
 
 .user-pic {
@@ -78,6 +87,7 @@ nav {
 	border-radius: 50%;
 	margin-right: 15px;
 }
+
 .sub-menu-link1 {
 	display: flex;
 	align-items: center;
@@ -140,41 +150,42 @@ table th {
 	color: #fff;
 	background-color: #0F21BF;
 }
-td a{
-color: #0F21BF;
-font-weight: 600;
-}
-td a:hover{
-color: red;
 
+td a {
+	color: #0F21BF;
+	font-weight: 600;
+}
+
+td a:hover {
+	color: red;
 }
 </style>
 </head>
 <body>
+	<%
+	String userName = (String) session.getValue("userName");
+	String customerId = request.getParameter("customerId");
+	String email = (String) session.getValue("email");
+	int customer = Integer.parseInt(customerId);
+	session.putValue("customerId",customerId);
+	session.putValue("userName",userName);
+	session.putValue("email",email);
+	%>
 	<nav>
 		<div class="navbar-brand">Foodies App</div>
+		<a href="Menu.jsp?customerId=<%=customer%>"> Menu </a>
 		<div class="image">
 			<img src="{% # %}" class="user-pic" onclick="tooglemenu()">
 			<div class="sub-menu-wrap" id="submenu">
 				<div class="sub-menu">
 					<div class="user-info">
 						<img src="{% # %}">
-						<%
-						String userName = (String) session.getValue("userName");
-						String customerId = (String) session.getValue("customerId");
-						String email = (String) session.getValue("email");
-						session.putValue("customerId",customerId);
-						session.putValue("userName",userName);
-						session.putValue("email",email);
-						%>
+
 						<h3><%=userName%></h3>
 					</div>
 					<%=email%>
 					<hr>
-					<a href="OrderHistory.jsp?customerId=<%=customerId%>" class="sub-menu-link1">
-						<p>Order History</p> <span>></span>
-					</a>
-					<a href="Logout.jsp" class="sub-menu-link">
+					</a> <a href="Logout.jsp" class="sub-menu-link">
 						<p>logout</p> <span>></span>
 					</a>
 				</div>
@@ -195,14 +206,15 @@ color: red;
 
 		<div class="container">
 
-			<h3 class="text-center">Food Menu</h3>
+			<h3 class="text-center">Order History</h3>
 			<hr>
 			<br>
 			<table class="table table-bordered">
 				<thead>
 					<tr>
 						<th>Food Name</th>
-						<th>Price</th>
+						<th>Unit Price</th>
+						<th>Quantity</th>
 						<th>Category</th>
 						<th></th>
 					</tr>
@@ -212,25 +224,34 @@ color: red;
 
 					<%
 					Connection con = ConnectionUtil.getConnection();
-					Statement stmt = con.createStatement();
-					ResultSet rs = stmt.executeQuery("select id,name,quantity,unit_price,item_category from fooditem");
+					String select = "select order_id,food_id,quantity from Orderiteam where customer_id=?";
+					PreparedStatement ps = con.prepareStatement(select);
+					ps.setInt(1, customer);
+					ResultSet rs = ps.executeQuery();
 					while (rs.next()) {
-						int id = rs.getInt(1);
-						String name = rs.getString(2);
+						int orderId = rs.getInt(1);
+						int foodId = rs.getInt(2);
 						int quantity = rs.getInt(3);
-						int price = rs.getInt(4);
-						String category = rs.getString(5);
+
+						String find = "select name,unit_price,item_category from fooditem where id=?";
+						PreparedStatement ps1 = con.prepareStatement(find);
+						ps1.setInt(1, foodId);
+						ResultSet rs1 = ps1.executeQuery();
+						while (rs1.next()) {
+							String name = rs1.getString(1);
+							int price = rs1.getInt(2);
+							String category = rs1.getString(3);
 					%>
 					<tr>
 						<td><%=name%></td>
 						<td>Rs.<%=price%></td>
+						<td><%=quantity%></td>
 						<td><%=category%></td>
-
 						<td><a
-							href="Order.jsp?foodId=<%=id%>&name=<%=name%>&price=<%=price%>&quantity=<%=quantity%>&category=<%=category%>&customerId=<%=customerId%>">ADD
-								CART</a></td>
+							href="ReOrderTest?foodId=<%=foodId%>&name=<%=name%>&price=<%=price%>&quantity=<%=quantity%>&category=<%=category%>&customerId=<%=customerId%>">REORDER</a></td>
 					</tr>
 					<%
+					}
 					}
 					%>
 				</tbody>
@@ -246,9 +267,3 @@ color: red;
 	</div>
 </body>
 </html>
-
-
-
-
-
-

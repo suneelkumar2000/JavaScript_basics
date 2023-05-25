@@ -40,6 +40,26 @@ body {
 
 button {
 	background: #080808;
+}
+
+button:hover {
+	background: #E57E08;
+}
+
+table td {
+	background-color: #DBD9E3;
+}
+
+table th {
+	color: #fff;
+	background-color: #0F21BF;
+}
+
+button a {
+	color: #fff;
+}
+
+button a:hover {
 	color: #fff;
 }
 </style>
@@ -67,6 +87,7 @@ button {
 						<th>Price</th>
 						<th>Quantity</th>
 						<th>Category</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -89,15 +110,18 @@ button {
 						<td><%=quantity%></td>
 						<td><%=category%></td>
 
-						<td>
-							<button>
-								<a
-									href="UpdatePage.jsp?id=<%=id%>&name=<%=name%>&price=<%=price%>&quantity=<%=quantity%>&category=<%=category%>">update</a>
-							</button> &nbsp;&nbsp;&nbsp;&nbsp;
-							<button>
-								<a href="DeleteFoodTest?id=<%=id%>">Delete</a>
-							</button>
-						</td>
+						<td><center>
+								<button>
+									<a
+										href="UpdatePage.jsp?id=<%=id%>&name=<%=name%>&price=<%=price%>&quantity=<%=quantity%>&category=<%=category%>">update</a>
+								</button>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+
+								<button class=delete>
+									<a href="DeleteFoodTest?id=<%=id%>">Delete</a>
+								</button>
+
+							</center></td>
 					</tr>
 					<%
 					}

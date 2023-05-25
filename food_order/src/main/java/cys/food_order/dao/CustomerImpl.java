@@ -93,4 +93,22 @@ public class CustomerImpl implements CustomerDAO {
 		}
 		return false;
 	}
+	@Override
+	public boolean paymentLogin(int customerId,String userName, String password) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		Connection con = ConnectionUtil.getConnection();
+		String find = "select user_name,password from customer where id=?";
+		PreparedStatement ps = con.prepareStatement(find);
+		ps.setInt(1, customerId);
+
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			String user = rs.getString(1);
+			String pass = rs.getString(2);
+			if (userName.equals(user) && password.equals(pass)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

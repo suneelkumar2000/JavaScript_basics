@@ -25,8 +25,9 @@ public class DeleteCartTest extends HttpServlet {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		OrderImpl or = new OrderImpl();
 		
-		String i=request.getParameter("orderId");
-		int id=Integer.parseInt(i);
+		String customerId=request.getParameter("customerId");
+		String orderId=request.getParameter("orderId");
+		int id=Integer.parseInt(orderId);
 		response.setContentType("text/html");
 		try (PrintWriter out=response.getWriter())
 		{
@@ -34,13 +35,13 @@ public class DeleteCartTest extends HttpServlet {
 			int n = or.deleteOrder(id);
 			if(n>0)
 			{
-				RequestDispatcher rd=request.getRequestDispatcher("Cart.jsp");
+				RequestDispatcher rd=request.getRequestDispatcher("Cart.jsp?customerId="+customerId);
 				rd.include(request, response);
 				out.println("<center><h3>Successfully Removed</h3></center>");
 			}
 			else
 			{
-				RequestDispatcher rd=request.getRequestDispatcher("Cart.jsp");
+				RequestDispatcher rd=request.getRequestDispatcher("Cart.jsp?customerId="+customerId);
 				rd.include(request, response);	
 				out.println("<center><h3>process unsuccessfull</h3></center>");
 			}
