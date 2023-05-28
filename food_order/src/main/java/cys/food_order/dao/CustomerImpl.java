@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
-
 import cys.food_order.model.Customer;
 import cys.food_order.util.ConnectionUtil;
 import cys.food_order.validation.Validation;

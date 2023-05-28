@@ -2,9 +2,6 @@ package cys.food_order.exception;
 
 public class PasswordException extends Exception
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String errorCode="PasswordException";
 	

@@ -1,7 +1,7 @@
 package cys.food_order.exception;
 
 public class EmailException extends Exception{
-	
+
 	private static final long serialVersionUID = 1L;
 private String errorCode="EmailException";
 	
