@@ -21,12 +21,12 @@ public class CustomerImpl implements CustomerDAO {
 		// TODO Auto-generated method stub
 		Connection con = ConnectionUtil.getConnection();
 
-		boolean email = val.emailValidation(customer.getEmail());
+		
 		boolean phone = val.phoneValidation(customer.getPhoneNumber());
 		boolean userName = val.usernameValidation(customer.getUserName());
 		boolean password = val.passwordValidation(customer.getUserName());
 
-		if (email == true && phone == true && userName == true && password == true) {
+		if (phone == true && userName == true) {
 			String insert = "insert into customer(email,phone_number,user_name,password) values(?,?,?,?)";
 			PreparedStatement ps = con.prepareStatement(insert);
 			ps.setString(1, customer.getEmail());
