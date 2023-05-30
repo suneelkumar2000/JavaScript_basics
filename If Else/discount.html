@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>Discount</title>
+</head>
+<body>
+	<div id="wrapper">
+		<h2>Discount</h2>
+		<div class="inputdiv">
+			<select id="gender">
+				<option value="Male">Male</option>
+				<option value="Female">Female</option>
+			</select> <input type="number" id="input" placeholder="Enter Your Age">
+		</div>
+		<div>
+			<button type="submit" onclick="discount()">Check</button>
+		</div>
+		<div id="result"></div>
+	</div>
+	<script>
+		function discount() {
+			const input = document.getElementById("gender")
+			const gender = input.options[input.selectedIndex].value
+			const age = Number(document.getElementById("input").value)
+			let message = 0;
+			if ((age >= 60) && gender.equals('Female')) {
+				message = 'You have special discount';
+			} else
+				message = 'Sorry No special discount';
+
+			let result = document.querySelector('#result')
+			result.innerHTML = (message);
+		}
+	</script>
+</body>
+</html>

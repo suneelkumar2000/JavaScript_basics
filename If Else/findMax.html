@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>Find Maximum</title>
+</head>
+<body>
+	<div id="wrapper">
+		<h2>Find Maximum</h2>
+		<div class="inputdiv">
+			<input type="number" id="input1" placeholder="Enter First number">
+			<input type="number" id="input2" placeholder="Enter Second number">
+		</div>
+		<div>
+			<button type="submit" onclick="maximum()">Check</button>
+		</div>
+		<div id="result"></div>
+	</div>
+	<script>
+		function maximum() {
+			const first = Number(document.getElementById("input1").value)
+			const second = Number(document.getElementById("input2").value)
+			let max = 0;
+			if(first > second)
+				  max = first;
+				else
+				  max = second;
+
+			let result = document.querySelector('#result')
+			result.innerHTML = ("Maximum number is " + max );
+		}
+	</script>
+</body>
+</html>
