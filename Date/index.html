@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //Print the string Format of current Mechine Date
+        const date=new Date();
+        console.log(date);
+
+        //Here create customn Date object
+        const now=new Date('May 26 2023');
+
+        //object using methods of date 
+        console.log(now.getFullYear());
+        console.log(now.getDate());
+        console.log(now.getDay());
+        console.log(now.getMonth());
+
+        // custom change date using set method
+        const anotherDate=new Date();
+        anotherDate.setFullYear('1999');
+        console.log(anotherDate.getFullYear());
+    </script>
+</body>
+</html>
